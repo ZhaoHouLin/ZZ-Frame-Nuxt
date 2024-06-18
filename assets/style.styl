@@ -1,0 +1,56 @@
+flex(juc=center,ali=center,direction=row)
+	display flex
+	justify-content juc
+	align-items ali
+	flex-direction direction
+	
+pos(l=50%,t=l)
+	position absolute
+	left l
+	top t
+
+size(w=100%,h=w)
+	width w
+	height h
+
+random(min,max)
+	return floor(math(0, 'random')*(max - min + 1) + min)
+
+
+fontStyle(fz=1.6rem)
+	font-size fz
+	line-height (fz * 2)
+	text-indent (fz * 2)
+	letter-spacing 4px
+
+
+
+outlineSpace = 1.4rem
+
+colorPrimary = rgb(34, 34, 34)
+colorSecondary = rgb(255, 0, 76)
+colorTertiary = rgb(255, 160, 92)
+colorFolder =rgb(255, 190, 10)
+colorGreen = rgb(66, 250, 63)
+colorGray = #555
+
+
+*
+  box-sizing border-box
+	margin 0
+	padding 0  
+	font-family '微軟正黑體'
+
+html,body
+	-webkit-overflow-scrolling touch
+	overflow-scrolling touch
+	
+body
+	font-size 16px
+	background-color colorPrimary
+
+#app
+	size(,100vh)
+
+
+

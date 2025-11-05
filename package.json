@@ -10,17 +10,17 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.5",
-    "gsap": "^3.12.7",
-    "nuxt": "^3.17.1",
-    "pinia": "^2.3.1",
-    "vue": "^3.4.29",
-    "vue-router": "^4.5.1",
+    "@pinia/nuxt": "^0.11.2",
+    "gsap": "^3.13.0",
+    "nuxt": "^4.2.0",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.3",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
-    "naive-ui": "^2.41.0",
+    "naive-ui": "^2.43.1",
     "pug": "^3.0.3",
-    "stylus": "^0.63.0"
+    "stylus": "^0.64.0"
   }
 }

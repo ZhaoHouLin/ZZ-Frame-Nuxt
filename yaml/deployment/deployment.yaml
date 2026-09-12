@@ -1,0 +1,56 @@
+# 請把 <HARBOR_HOST> 換成實際值；secret zz-frame-dep-secret 內容見 README
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zz-frame
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zz-frame
+  template:
+    metadata:
+      labels:
+        app: zz-frame
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: nuxt-app
+          image: <HARBOR_HOST>/library/zz-frame:latest
+          imagePullPolicy: Always # 確保每次重啟都會去 Harbor 拉最新版
+          livenessProbe:
+            httpGet:
+              path: / # 檢查根目錄是否能打開
+              port: 3000
+            initialDelaySeconds: 15 # 啟動後等 15 秒再開始檢查（給 Nuxt 一點啟動時間）
+            periodSeconds: 20 # 每 20 秒檢查一次
+            failureThreshold: 3 # 連續失敗 3 次才重啟
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5 # 啟動 5 秒後就開始看能不能接客
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+          envFrom:
+            - secretRef:
+                name: zz-frame-dep-secret
+          volumeMounts:
+            - name: uploads
+              mountPath: /uploads
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: nfs-pvc

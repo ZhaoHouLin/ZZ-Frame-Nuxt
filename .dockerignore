@@ -1,0 +1,12 @@
+node_modules
+.output
+.nuxt
+.nitro
+.cache
+.git
+.env
+.env.*
+uploads
+docs
+yaml
+*.md

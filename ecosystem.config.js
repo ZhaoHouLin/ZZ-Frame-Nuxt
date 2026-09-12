@@ -1,15 +1,16 @@
+// pm2 設定：pm2 start ecosystem.config.js
+// 環境變數（NUXT_JWT_SECRET 等）請放在 .env 或 env 區塊
 export const apps = [
   {
     name: 'ZZ-Frame',
+    script: './.output/server/index.mjs',
+    // 固定工作目錄，uploads 等相對路徑才不會隨啟動位置改變
+    cwd: import.meta.dirname,
     exec_mode: 'cluster',
     // instances: 'max',
-    port: '3030',
-    // host: '192.168.68.71'
-    script: './.output/server/index.mjs',
-    // env_production: {
-    //   // 環境參數,當前指定為生產環境
-    //   NODE_ENV: "production", //使用production模式 pm2 start ecosystem.config.js --env production
-    //   PORT: "6001",
-    // }
-  }
+    // Nitro 讀的是 PORT 環境變數，不是 pm2 的 port 欄位
+    env: {
+      PORT: 3030,
+    },
+  },
 ]

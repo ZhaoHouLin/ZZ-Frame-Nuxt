@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "zz-frame-nuxt",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,15 +11,20 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.2",
+    "@vicons/tabler": "^0.13.0",
+    "formidable": "^3.5.4",
     "gsap": "^3.13.0",
-    "nuxt": "^3.20.0",
+    "jose": "^6.1.2",
+    "ldapjs": "^3.0.7",
+    "naive-ui": "^2.43.1",
+    "nuxt": "^4.5.2",
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
-    "naive-ui": "^2.43.1",
+    "@types/node": "^24.10.1",
     "pug": "^3.0.3",
     "stylus": "^0.64.0"
   }

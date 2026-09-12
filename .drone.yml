@@ -1,0 +1,36 @@
+kind: pipeline
+type: docker
+name: deploy-nuxt
+
+# 請把 <HARBOR_HOST> / <K8S_HOST> / <K8S_USER> 換成實際值，
+# 並在 Drone 介面設定 secret：harbor_username、harbor_password、ssh_key
+
+steps:
+  # 依 Dockerfile 建 image 並推到 Harbor（npm install 在 Dockerfile 內執行）
+  - name: build-push-harbor
+    image: plugins/docker
+    settings:
+      registry: <HARBOR_HOST>
+      repo: <HARBOR_HOST>/library/zz-frame
+      tags: latest
+      insecure: true # Harbor 走 HTTP 時需要
+      privileged: true # 需在 Drone repo 設定勾選 Trusted
+      username:
+        from_secret: harbor_username
+      password:
+        from_secret: harbor_password
+
+  # 讓 K8s 重新拉最新 image 並滾動更新
+  - name: deploy-to-k8s
+    image: appleboy/drone-ssh
+    settings:
+      host: <K8S_HOST>
+      username: <K8S_USER>
+      key:
+        from_secret: ssh_key
+      script:
+        - kubectl rollout restart deployment/zz-frame
+
+trigger:
+  branch:
+    - main

@@ -1,0 +1,62 @@
+[
+  {
+    "label": "A",
+    "value": "A",
+    "children": [
+      {
+        "label": "A-1",
+        "value": "A-1"
+      },
+      {
+        "label": "A-2",
+        "value": "A-2"
+      }
+    ]
+  },
+  {
+    "label": "B",
+    "value": "B",
+    "children": [
+      {
+        "label": "B-1",
+        "value": "B-1",
+        "children": [
+          {
+            "label": "B-1-1",
+            "value": "B-1-1"
+          },
+          {
+            "label": "B-1-2",
+            "value": "B-1-2"
+          },
+          {
+            "label": "B-1-3",
+            "value": "B-1-3"
+          }
+        ]
+      },
+      {
+        "label": "B-2",
+        "value": "B-2"
+      }
+    ]
+  },
+  {
+    "label": "C",
+    "value": "C",
+    "children": [
+      {
+        "label": "C-1",
+        "value": "C-1"
+      },
+      {
+        "label": "C-2",
+        "value": "C-2"
+      },
+      {
+        "label": "C-3",
+        "value": "C-3"
+      }
+    ]
+  }
+]

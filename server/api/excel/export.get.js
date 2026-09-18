@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, message: '還沒有表格' })
   }
 
-  const sheet = XLSX.utils.aoa_to_sheet([table.headers, ...table.rows.map((r) => r.map(toCell))])
+  const sheet = XLSX.utils.aoa_to_sheet([table.headers, ...table.rows.map((r) => r.cells.map(toCell))])
   const workbook = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(workbook, sheet, 'Sheet1')
   const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' })

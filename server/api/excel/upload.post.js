@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: '第一個工作表是空的' })
     }
 
-    const table = normalizeTable({ name: path.basename(file.originalFilename), headers, rows })
+    const table = newTable(path.basename(file.originalFilename), headers, rows)
     await writeTable(table)
     return table
   } finally {

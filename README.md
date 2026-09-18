@@ -80,8 +80,8 @@ Nuxt 會把 `NUXT_` 前綴的環境變數對應到 `runtimeConfig`，所以不�
 | `POST /api/files/upload` | multipart 上傳，同名覆蓋 |
 | `GET /api/files/download?name=` | 下載 |
 | `POST /api/excel/upload` | multipart 上傳一個 .xlsx / .xls / .csv，第一個工作表存成表格（覆蓋前一張） |
-| `GET /api/excel` | 目前的表格 `{ name, headers, rows }`，尚未上傳回 `null` |
-| `PUT /api/excel` | 儲存編輯後的表格，body 同上 |
+| `GET /api/excel` | 目前的表格 `{ name, headers, rows: [{ id, cells }], log }`，尚未上傳回 `null` |
+| `PUT /api/excel` | 儲存編輯：body `{ base, rows }`（載入時與改完的列），只套用差異、寫入修改紀錄 `log`，多人同時改不互蓋 |
 | `GET /api/excel/export` | 把表格匯出成 .xlsx 下載 |
 | `GET /api/readJson` | 讀 `server/assets/example.json` |
 | `GET /api/readXLSX` | 讀 `server/assets/example.xlsx` 第一個工作表 |

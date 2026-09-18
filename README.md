@@ -6,6 +6,7 @@
 - naive-ui + pug + stylus + gsap
 - AD (LDAP) 登入，JWT cookie session
 - 檔案上傳 / 下載
+- Excel 上傳成表格、線上編輯、匯出
 - 讀取 JSON / Excel 範例
 - Docker / Drone CI / k8s 部署腳本
 - pm2 設定
@@ -28,6 +29,7 @@ npm run dev
 features: {
   auth:  { enabled: true },
   files: { enabled: true, maxSizeMB: 20, maxFiles: 10 },
+  excel: { enabled: true },
 }
 ```
 
@@ -35,8 +37,9 @@ features: {
 |---|---|
 | `auth` | 全站不需登入；`/login` 導回首頁；server 端不驗證 JWT；不需要 `NUXT_JWT_SECRET` / `NUXT_LDAP_*` |
 | `files` | `/files` 導回首頁；`/api/files/*` 回 404；選單不顯示「檔案管理」 |
+| `excel` | `/excel` 導回首頁；`/api/excel/*` 回 404；選單不顯示「Excel 表格」 |
 
-注意：`auth` 關閉但 `files` 開啟時，檔案 API 是公開的。
+注意：`auth` 關閉但 `files` 或 `excel` 開啟時，檔案與表格 API 是公開的。
 
 `auth` 開啟時，缺少環境變數 server 會直接啟動失敗並告訴你缺哪個。
 
@@ -47,7 +50,8 @@ features: {
 | 功能 | 刪除這些 |
 |---|---|
 | auth | `server/api/auth/`、`server/utils/auth.js`、`server/plugins/check-config.js`、`app/middleware/auth.global.js`、`app/middleware/guest.js`、`app/pages/login.vue`、`app/stores/auth.js`；`package.json` 移除 `jose`、`ldapjs`；`server/api/files/*` 拿掉 `requireAuth`；`Menu.vue` 拿掉登出 |
-| files | `server/api/files/`、`server/utils/files.js`、`app/pages/files.vue`、`app/components/FileManager.vue`；`package.json` 移除 `formidable`；`Menu.vue` 拿掉「檔案管理」 |
+| files | `server/api/files/`、`server/utils/files.js`、`app/pages/files.vue`、`app/components/FileManager.vue`；`package.json` 移除 `formidable`（excel 也用到，兩者都刪才移除）；`Menu.vue` 拿掉「檔案管理」 |
+| excel | `server/api/excel/`、`server/utils/excel.js`、`app/pages/excel.vue`、`app/components/ExcelTable.vue`；`Menu.vue` 與 `index.vue` 拿掉「Excel 表格」 |
 | JSON / Excel 範例 | `server/api/readJson.get.js`、`server/api/readXLSX.get.js`、`server/assets/`；`package.json` 移除 `xlsx`；`index.vue` 拿掉按鈕 |
 | Docker / k8s | `Dockerfile`、`.dockerignore`、`.drone.yml`、`yaml/` |
 | pm2 | `ecosystem.config.js` |
@@ -61,7 +65,7 @@ features: {
 | `NUXT_JWT_SECRET` | JWT 簽章密鑰（auth 開啟時必填） |
 | `NUXT_LDAP_URL` | `ldap://host`（auth 開啟時必填） |
 | `NUXT_LDAP_DOMAIN` | 登入時組成 `帳號@DOMAIN`（auth 開啟時必填） |
-| `NUXT_UPLOAD_DIR` | 上傳目錄，預設 `uploads`。容器內請掛 volume，例如 `/uploads` |
+| `NUXT_UPLOAD_DIR` | 上傳目錄，預設 `uploads`。容器內請掛 volume，例如 `/uploads`。excel 的表格也存在這裡（`excel-table.json`） |
 
 Nuxt 會把 `NUXT_` 前綴的環境變數對應到 `runtimeConfig`，所以不用重新打包 image 就能改設定。
 
@@ -75,6 +79,10 @@ Nuxt 會把 `NUXT_` 前綴的環境變數對應到 `runtimeConfig`，所以不�
 | `GET /api/files` | 檔案清單 |
 | `POST /api/files/upload` | multipart 上傳，同名覆蓋 |
 | `GET /api/files/download?name=` | 下載 |
+| `POST /api/excel/upload` | multipart 上傳一個 .xlsx / .xls / .csv，第一個工作表存成表格（覆蓋前一張） |
+| `GET /api/excel` | 目前的表格 `{ name, headers, rows }`，尚未上傳回 `null` |
+| `PUT /api/excel` | 儲存編輯後的表格，body 同上 |
+| `GET /api/excel/export` | 把表格匯出成 .xlsx 下載 |
 | `GET /api/readJson` | 讀 `server/assets/example.json` |
 | `GET /api/readXLSX` | 讀 `server/assets/example.xlsx` 第一個工作表 |
 

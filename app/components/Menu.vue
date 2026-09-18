@@ -19,6 +19,7 @@ const links = computed(() =>
   [
     { to: "/", label: "首頁" },
     features.files.enabled && { to: "/files", label: "檔案管理" },
+    features.excel.enabled && { to: "/excel", label: "Excel 表格" },
   ].filter(Boolean)
 )
 

@@ -2,6 +2,7 @@
 const FEATURE_ROUTES = {
   '/login': 'auth',
   '/files': 'files',
+  '/excel': 'excel',
 }
 
 export default defineNuxtRouteMiddleware((to) => {

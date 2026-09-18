@@ -22,6 +22,7 @@ const getXLSX = async () => {
       NButton(@click="getXLSX") 讀 XLSX 範例
       NButton(@click="counter.increment") count: {{ counter.count }} / double: {{ counter.double }}
     NuxtLink(v-if="features.files.enabled" to="/files") 檔案管理
+    NuxtLink(v-if="features.excel.enabled" to="/excel") Excel 表格
     pre(v-if="result") {{ JSON.stringify(result, null, 2) }}
 </template>
 

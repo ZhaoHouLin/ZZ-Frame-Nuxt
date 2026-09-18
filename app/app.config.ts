@@ -3,7 +3,7 @@
 export default defineAppConfig({
   features: {
     // AD (LDAP) 登入。關閉後：全站不需登入、/login 導回首頁、server 端不再驗證 JWT。
-    auth: { enabled: false },
+    auth: { enabled: true },
     // 檔案上傳/下載。關閉後：/files 導回首頁、/api/files/* 回 404。
     // 注意：auth 關閉而 files 開啟時，檔案 API 是公開的。
     files: { enabled: true, maxSizeMB: 20, maxFiles: 10 },
